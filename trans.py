@@ -73,32 +73,32 @@ sR = s_mean*rotation_Matrix
 
 
 for filename in os.listdir(imput_Path):
+    if '.obj' in filename:
+        objects = open(imput_Path + filename, 'r', encoding='utf-8')
+        object_points = read_Points(objects)
 
-    objects = open(imput_Path + filename, 'r', encoding='utf-8')
-    object_points = read_Points(objects)
-
-    #apply the transformation
-    object_points = mat(object_points)
-    object_points = (sR*object_points.T)+ translation_Matrix
-    object_points = object_points.T
-    object_points = np.array(object_points)
+        #apply the transformation
+        object_points = mat(object_points)
+        object_points = (sR*object_points.T)+ translation_Matrix
+        object_points = object_points.T
+        object_points = np.array(object_points)
 
 
-    transed = open(output_Path + filename, 'w', encoding='utf-8')
-    objects = open(imput_Path + filename, 'r', encoding='utf-8')
+        transed = open(output_Path + filename, 'w', encoding='utf-8')
+        objects = open(imput_Path + filename, 'r', encoding='utf-8')
 
-    i = 0
+        i = 0
 
-    for o_line in objects:
-        if 'v' in o_line and '#' not in o_line:
-            transed.write('v ')
+        for o_line in objects:
+            if 'v' in o_line and '#' not in o_line:
+                transed.write('v ')
 
-            transed.write(str(object_points[i][0]) + ' ')
-            transed.write(str(object_points[i][1]) + ' ')
-            transed.write(str(object_points[i][2]) + '\n')
-            i += 1
-        else:
-            transed.write(o_line)
-    
-    transed.close()
-    objects.close()
+                transed.write(str(object_points[i][0]) + ' ')
+                transed.write(str(object_points[i][1]) + ' ')
+                transed.write(str(object_points[i][2]) + '\n')
+                i += 1
+            else:
+                transed.write(o_line)
+        
+        transed.close()
+        objects.close()
